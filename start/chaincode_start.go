@@ -1,25 +1,8 @@
-/*
-Copyright IBM Corp 2016 All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-		 http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
 	"errors"
 	"fmt"
-
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
@@ -85,19 +68,6 @@ func( t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 	return nil, nil
 }
 
-// Query is our entry point for queries
-func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	fmt.Println("query is running " + function)
-
-	// Handle different functions
-	if function == "read" {											//read a variable
-		return t.read(stub, args)
-	}
-	fmt.Println("query did not find func: " + function)						//error
-
-	return nil, errors.New("Received unknown function query: " + function)
-}
-
 // generic read function
 func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, jsonResp string
@@ -115,4 +85,17 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 	}
 
 	return valAsbytes, nil
+}
+
+// Query is our entry point for queries
+func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+	fmt.Println("query is running " + function)
+
+	// Handle different functions
+	if function == "read" {											//read a variable
+		return t.read(stub, args)
+	}
+	fmt.Println("query did not find func: " + function)						//error
+
+	return nil, errors.New("Received unknown function query: " + function)
 }
